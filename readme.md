@@ -1,0 +1,1 @@
+Gotta track those nuzlocke runs somehow!
