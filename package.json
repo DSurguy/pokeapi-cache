@@ -1,0 +1,23 @@
+{
+  "name": "nuzlocke",
+  "version": "1.0.0",
+  "description": "Gotta track those nuzlocke runs somehow!",
+  "main": "./app/index.js",
+  "scripts": {
+    "start": "node ./app/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DSurguy/nuzlocke.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DSurguy/nuzlocke/issues"
+  },
+  "homepage": "https://github.com/DSurguy/nuzlocke#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "mongodb": "^2.2.31"
+  }
+}
