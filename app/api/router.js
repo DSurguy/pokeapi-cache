@@ -1,32 +1,34 @@
 var apiRouter = require('express').Router();
 var MongoClient = require('mongodb').MongoClient;
+var nzCache = require('./nzCache.js');
 
-//create a mongo connection and inject it into every api route
 var mdb;
 console.log("Beginning API init...");
+//create a mongo connection
 MongoClient.connect(require('../config.json').mongo.url).then(function (db){
     mdb = db;
     apiRouter.use('*', function (req, res, next){
+        //inject the connection into every api route
         req.db = mdb;
+        //also inject our nzCache
+        req.nzCache = new nzCache();
         next();
     });
 
-    apiRouter.get('/pokeapi/*', function (req, res){
-        console.log("Handling path");
-        try{
-            req.db.collection('paths').insertOne({
-                path: req.path
-            }).then(function (){
-                res.sendStatus(200);
-            }).catch(function (err){
-                console.error(err);
-                res.sendStatus(500);
-            });
-        } catch (e){
-            console.error(e);
+    //pokeapi image routes
+    apiRouter.get('/pokeapi/*.png', function (req, res){
+        console.log(`Image path: ${req.path.replace('/pokeapi','')}`);
+        res.sendStatus(200);
+    });
 
-            res.sendStatus(500);
-        }
+    apiRouter.get('/pokeapi/*', function (req, res){
+        req.nzCache.jData(req.path.replace(/\/?pokeapi/,''), req.db)
+        .then(function (data){
+            res.status(200).send(data);
+        }).catch(function (err){
+            res.status(500).end();
+            console.error(err);
+        });
     });
 
     console.log("Completed API init");
