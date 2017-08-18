@@ -1,6 +1,7 @@
 var apiRouter = require('express').Router();
 var MongoClient = require('mongodb').MongoClient;
-var NzCache = require('./nzCache.js');
+var pokeapiRouter = require('./pokeapi.js');
+var nzRunRouter = require('./nz-run.js');
 
 var NZRUN_STATUS = {
     FAILED: 0,
@@ -37,31 +38,12 @@ MongoClient.connect(require('../config.json').mongo.url).then(function (db){
     apiRouter.use('*', function (req, res, next){
         //inject the connection into every api route
         req.db = mdb;
-        //also inject our nzCache
-        req.nzCache = new NzCache();
         next();
     });
 
-    //pokeapi image routes
-    apiRouter.get('/pokeapi/*.png', function (req, res){
-        console.log(`Image path: ${req.path.replace('/pokeapi','')}`);
-        res.sendStatus(200);
-    });
+    apiRouter.use(pokeapiRouter);
 
-    apiRouter.get('/pokeapi/*', function (req, res){
-        req.nzCache.jData(req.path.replace(/\/?pokeapi/,''), req.db)
-        .then(function (data){
-            res.status(200).send(data);
-        }).catch(function (err){
-            res.status(500).end();
-            console.error(err);
-        });
-    });
-
-    apiRouter.post('/nuzlocke/run', function (req, res){
-        console.log(req.body);
-        res.send({msg: 'YOU GOT IT'});
-    });
+    apiRouter.use(nzRunRouter);
 
     console.log("Completed API init");
 })
