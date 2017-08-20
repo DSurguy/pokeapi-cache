@@ -41,7 +41,9 @@ MongoClient.connect(require('../config.json').mongo.url).then(function (db){
         next();
     });
 
-    apiRouter.use(pokeapiRouter);
+    //omit pokeapi routes for now
+    //all pokeapi calls will probably be internal
+    //piRouter.use(pokeapiRouter);
 
     apiRouter.use(nzRunRouter);
 
