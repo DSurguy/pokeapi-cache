@@ -49,4 +49,5 @@ jspm_packages
 #configuration
 config.json
 
-test-client
+#temp archives
+*.7z

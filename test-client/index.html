@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>Welcome</title>
+</head>
+<body>
+  <button class="post-button">CLICK IT POST IT</button>
+  <button class="bad-post-button">IT'S A BAD POST</button>
+<script>
+  function request(method, url, data, callback){
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.setRequestHeader('content-type', 'application/json; charset=utf-8');
+    xhr.setRequestHeader('Accept', 'application/json; charset=utf-8');
+    xhr.send(JSON.stringify(data));
+    xhr.onload = function (e) {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          callback(undefined, JSON.parse(xhr.responseText));
+        } else {
+          callback(xhr.responseText);
+        }
+      }
+    };
+    xhr.onerror = function (e) {
+      callback(xhr.responseText);
+    };
+  }
+  document.querySelector('.post-button').addEventListener('click', function (e){
+    request('POST', 'http://localhost:8080/api/nuzlocke/run', {
+      description: 'Test Run',
+      game: '2'
+    }, function (err, responseData){
+      console.log(responseData);
+    });
+  });
+  document.querySelector('.bad-post-button').addEventListener('click', function (e){
+    request('POST', 'http://localhost:8080/api/nuzlocke/run', {
+      description: '',
+      game: 14
+    }, function (err, responseData){
+      console.log(responseData);
+    });
+  });
+</script>
+</body>
+</html>
