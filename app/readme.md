@@ -1,1 +1,3 @@
-Server-Side Application for Nuzlocke Tracker
+#Pokeapi Cache
+
+Caching and Abstraction Layer for Nuzlocker PokeApi calls
