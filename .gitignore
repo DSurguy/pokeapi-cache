@@ -48,6 +48,10 @@ jspm_packages
 
 #configuration
 config.json
+mongodb.cfg
 
 #temp archives
 *.7z
+
+#dev database
+_data

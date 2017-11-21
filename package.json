@@ -4,6 +4,7 @@
   "description": "Gotta track those nuzlocke runs somehow!",
   "main": "./app/index.js",
   "scripts": {
+    "db": "start mongod --config ./mongodb.cfg",
     "start": "node ./app/index.js"
   },
   "repository": {

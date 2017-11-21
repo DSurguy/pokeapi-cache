@@ -18,9 +18,10 @@ MongoClient.connect(require('../config.json').mongo.url).then(function (db){
   //generic json body parsing middleware
   apiRouter.use(function(req, res, next){
     var data = "";
-    req.on('data', function(chunk){ data += chunk});
-    req.on('end', function(){
-      if( req.get('Content-Type').indexOf('application/json') !== -1 ){
+    req.on('data', (chunk) => { data += chunk});
+    req.on('end', () => {
+      console.log(req);
+      if( (req.get('Content-Type')||'').indexOf('application/json') !== -1 ){
         try{
           req.body = JSON.parse(data);
           next();
