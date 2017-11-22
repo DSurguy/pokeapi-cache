@@ -5,7 +5,7 @@ var app = express();
 
 app.use(express.static(path.join(__dirname, '../test-client')));
 
-app.use('/api', require('./api/router.js'));
+app.use(require('./api/router.js'));
 
 app.listen(8080, function (){
   console.log('Listening on port 8080')

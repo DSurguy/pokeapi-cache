@@ -1,14 +1,15 @@
-var pokeapiRouter = require('express').Router();
-var NzCache = require('./pokeapi/nzCache.js');
+var pkRouter = require('express').Router();
+var pkCache = new (require('./pkCache.js'));
 
 //pokeapi image routes
-pokeapiRouter.get('/pokeapi/*.png', function (req, res){
+pkRouter.get('/pokeapi/*.png', function (req, res){
   console.log(`Image path: ${req.path.replace('/pokeapi','')}`);
   res.sendStatus(200);
 });
 
-pokeapiRouter.get('/pokeapi/*', function (req, res){
-  req.nzCache.jData(req.path.replace(/\/?pokeapi/,''), req.db)
+pkRouter.get('/pokeapi/*', function (req, res){
+  console.log('Handling /pokeapi/*');
+  pkCache.jData(req.path.replace(/\/?pokeapi/,''), req.db)
   .then(function (data){
     res.status(200).send(data);
   }).catch(function (err){
@@ -17,4 +18,4 @@ pokeapiRouter.get('/pokeapi/*', function (req, res){
   });
 });
 
-module.exports = pokeapiRouter;
+module.exports = pkRouter;

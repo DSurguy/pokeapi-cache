@@ -1,13 +1,13 @@
 "use strict";
 
-var http = require('http');
+var https = require('https');
 
-function nzCache(){
+function pkCache(){
 
 }
 
 /* Process and return json data from pokeapi after caching */
-nzCache.prototype.jData = function (path, db){
+pkCache.prototype.jData = function (path, db){
   return new Promise(function (resolve, reject){
     db.collection('dataCache').findOne({
       $or: [
@@ -22,8 +22,8 @@ nzCache.prototype.jData = function (path, db){
         }
       }
       //fetch actual
-      console.log(`Forwarding to pokeapi: http://pokeapi.co${path}`);
-      nodeGet(`http://pokeapi.co${path}`, function (response){
+      console.log(`Forwarding to pokeapi: https://pokeapi.co/api${path}`);
+      nodeGet(`https://pokeapi.co/api${path}`, function (response){
         //cache this response
         db.collection('dataCache').update({
           $or: [{'path': path}]
@@ -46,22 +46,28 @@ nzCache.prototype.jData = function (path, db){
 };
 
 /* Process and return image data from pokeapi after caching */
-nzCache.prototype.iData = function (path){
+pkCache.prototype.iData = function (path){
   
 };
 
 function nodeGet(url, callback){
-  http.get(url, (res) => {
+  https.get(url, (res) => {
+    console.log(res.headers);
     const { statusCode } = res;
     const contentType = res.headers['content-type'];
 
     let error;
-    if (statusCode < 200 || statusCode > 399) {
-      error = new Error('Request Failed.\n' +
-              `Status Code: ${statusCode}`);
-    } else if (!/^application\/json/.test(contentType)) {
-      error = new Error('Invalid content-type.\n' +
-              `Expected application/json but received ${contentType}`);
+    try{
+      if (statusCode < 200 || statusCode > 399) {
+        error = new Error('Request Failed.\n' +
+                `Status Code: ${statusCode}`);
+      } else if (!/^application\/json/.test(contentType)) {
+        error = new Error('Invalid content-type.\n' +
+                `Expected application/json but received ${contentType}`);
+      }
+    }
+    catch (err){
+      error = err;
     }
     if (error) {
       console.error(error);
@@ -75,6 +81,7 @@ function nodeGet(url, callback){
       res.on('data', (chunk) => { rawData += chunk; });
       res.on('end', () => {
         try {
+          console.log(rawData);
           const parsedData = JSON.parse(rawData);
           callback(parsedData);
         } catch (e) {
@@ -88,4 +95,4 @@ function nodeGet(url, callback){
   });
 }
 
-module.exports = nzCache;
+module.exports = pkCache;
