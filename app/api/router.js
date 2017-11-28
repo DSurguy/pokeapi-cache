@@ -1,11 +1,12 @@
 var apiRouter = require('express').Router();
 var MongoClient = require('mongodb').MongoClient;
 var pokeapiRouter = require('./pokeapi.js');
+var config = require('../config.js');
 
 var mdb;
 console.log("Beginning API init...");
 //create a mongo connection
-MongoClient.connect(require('../config.json').mongo.url).then(function (db){
+MongoClient.connect(config.MONGO_URL).then(function (db){
   mdb = db;
 
   //generic json body parsing middleware
