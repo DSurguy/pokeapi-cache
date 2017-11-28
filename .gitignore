@@ -55,3 +55,6 @@ mongodb.cfg
 
 #dev database
 _data
+
+#docker
+.docker-compose.yml.swp
