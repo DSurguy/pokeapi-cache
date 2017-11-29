@@ -7,3 +7,18 @@ then
 fi
 
 #prompt each env var
+echo "Setting POKEAPI_MONGO_HOST."
+if [ -z ${POKEAPI_MONGO_HOST+x} ]
+then
+  promptMsg="Use default of 'localhost' (y/n)? "
+else
+  promptMsg="Use existing value of '$POKEAPI_MONGO_HOST' (y/n)? "
+fi
+while true; do
+    read -p "$promptMsg" yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo -ne "\033[1A\r\033[K";;
+    esac
+done
