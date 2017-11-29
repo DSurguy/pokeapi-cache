@@ -59,3 +59,6 @@ _data
 #docker
 .docker-compose.yml
 .docker-compose.*.swp
+
+#env files
+*.env
