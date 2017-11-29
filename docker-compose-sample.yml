@@ -1,15 +1,15 @@
 version: "2"
 services:
-  app:
+  pokeapi-cache-app:
     env_file: app.env
-    container_name: app
+    container_name: pokeapi-cache-app
     restart: always
     build: .
     ports:
       - "8080:8080"
-  mongo:
+  pokeapi-cache-mongo:
     env_file: mongo.env
-    container_name: mongo
+    container_name: pokeapi-cache-mongo
     restart: always
     image: mongo
     volumes:
