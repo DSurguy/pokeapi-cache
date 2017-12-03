@@ -46,14 +46,15 @@ EXIT /B 0 :: Main exit
   SET INDEX=%1
   SET KEY=%2
   if NOT [%3]==[] (
-    SET CURVAL=%3
+    SET CURVAL=%3%
   ) else (
-    SET CURVAL=%4
+    SET CURVAL=%4%
   )
+  SET USERRESPONSE = ""
   SET /p USERRESPONSE="%KEY% (%CURVAL%): "
-  if [%USERRESPONSE]==[] (
-    SET VALUES[%1]=%CURVAL
+  if [%USERRESPONSE%]==[] (
+    SET VALUES[%1]=%CURVAL:"=%
   ) else (
-    SET VALUES[%1]=%USERRESPONSE%
+    SET VALUES[%1]=%USERRESPONSE:"=%
   )
 EXIT /B 0 :: end promptVar
