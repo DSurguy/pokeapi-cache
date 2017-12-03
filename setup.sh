@@ -16,7 +16,7 @@ DEFAULTS=('localhost' '27107' 'poke' )
 promptVar () {
   INDEX=$1
   KEY=$2
-  if [ -z ${POKEAPI_MONGO_HOST+x} ]
+  if [ -z ${$3+x} ]
   then
     CURVAL=$3
   else
