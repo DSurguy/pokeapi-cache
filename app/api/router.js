@@ -6,6 +6,7 @@ var config = require('../config.js');
 var mdb;
 console.log("Beginning API init...");
 //create a mongo connection
+console.log(config.MONGO_URL);
 MongoClient.connect(config.MONGO_URL).then(function (db){
   mdb = db;
 

@@ -9,9 +9,9 @@ then
 fi
 
 # define all env keys and defaults
-KEYS=("POKEAPI_APP_PORT" "POKEAPI_MONGO_HOST" "POKEAPI_MONGO_PORT" "POKEAPI_MONGO_DB" "POKEAPI_MONGO_USER" "POKEAPI_MONGO_PASS")
-VALUES=($POKEAPI_APP_PORT $POKEAPI_MONGO_HOST $POKEAPI_MONGO_PORT $POKEAPI_MONGO_DB $POKEAPI_MONGO_USER $POKEAPI_MONGO_PASS)
-DEFAULTS=('8080' 'localhost' '27107' 'poke' )
+KEYS=("POKEAPI_MONGO_HOST" "POKEAPI_APP_PORT" "POKEAPI_MONGO_PORT" "POKEAPI_MONGO_DB" "POKEAPI_MONGO_USER" "POKEAPI_MONGO_PASS")
+VALUES=($POKEAPI_MONGO_HOST $POKEAPI_APP_PORT $POKEAPI_MONGO_PORT $POKEAPI_MONGO_DB $POKEAPI_MONGO_USER $POKEAPI_MONGO_PASS)
+DEFAULTS=('localhost' '8080' '27107' 'pokeapi-cache' )
 
 #FUNCTION promptVar
 # Prompt the user for a key, displaying current or default value
@@ -34,15 +34,35 @@ promptVar () {
   done
 }
 
+# Check to see if we're running mongo
+while true; do
+  read -p "Run mongo in docker? (y/n): " RUN_MONGO_IN_DOCKER
+  case $RUN_MONGO_IN_DOCKER in
+    [yY]* ) RUN_MONGO_IN_DOCKER=true; break;;
+    [nN]* ) RUN_MONGO_IN_DOCKER=false; break;;
+    * ) echo -ne "\033[1A\r\033[K";
+  esac
+done
+
 # Loop through keys and prompt the user for each
 echo "Enter a new value for each ENV var or leave blank to accept the current value."
-for i in "${!KEYS[@]}"; do 
-  promptVar $i "${KEYS[$i]}" "${VALUES[$i]}" "${DEFAULTS[$i]}"
+for i in "${!KEYS[@]}"; do
+  if [ $i -eq 0 ]
+  then
+    if [ RUN_MONGO_IN_DOCKER==true ]
+    then
+      VALUES[$i]=pokeapi-cache-mongo
+    else
+      promptVar $i "${KEYS[$i]}" "${VALUES[$i]}" "${DEFAULTS[$i]}"
+    fi
+  else
+    promptVar $i "${KEYS[$i]}" "${VALUES[$i]}" "${DEFAULTS[$i]}"
+  fi
 done;
 
 # Write all keys to the .env file
 > .env;
-for i in "${!KEYS[@]}"; do 
+for i in "${!KEYS[@]}"; do
   echo "${KEYS[$i]}=${VALUES[$i]}" >> .env
   case ${KEYS[$i]} in
     "POKEAPI_MONGO_USER" ) echo "MONGO_INITDB_ROOT_USERNAME=${VALUES[$i]}" >> .env;;
@@ -71,18 +91,11 @@ services:
     build: .
     ports:
       - \"\${POKEAPI_APP_PORT}:\${POKEAPI_APP_PORT}\"" >> docker-compose.yml
-
-while true; do
-  read -p "Run mongo in docker? (y/n): " yn
-  case $yn in
-    [yY]* ) yn=true; break;;
-    [nN]* ) yn=false; break;;
-    * ) echo -ne "\033[1A\r\033[K";
-  esac
-done
-if [ yn==true ]
+if [ RUN_MONGO_IN_DOCKER==true ]
 then
-  echo "  pokeapi-cache-mongo:
+  echo "    links:
+      - pokeapi-cache-mongo
+  pokeapi-cache-mongo:
     env_file: .env
     container_name: pokeapi-cache-mongo
     restart: always
