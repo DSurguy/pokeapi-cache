@@ -57,8 +57,9 @@ mongodb.cfg
 _data
 
 #docker
-.docker-compose.yml
+docker-compose.yml
 .docker-compose.*.swp
+*.bak
 
 #env files
 *.env
