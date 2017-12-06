@@ -5,4 +5,4 @@ COPY ./app ~/pokeapi-cache/app
 WORKDIR ~/pokeapi-cache
 RUN npm install
 EXPOSE 8080
-CMD [ “npm”, “start” ]
+CMD npm start
