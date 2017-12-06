@@ -1,6 +1,6 @@
 let config = {
   MONGO_HOST: process.env.POKEAPI_MONGO_HOST || 'localhost',
-  MONGO_PORT: process.env.POKEAPI_MONGO_PORT || 27107,
+  MONGO_PORT: process.env.POKEAPI_MONGO_PORT || 27017,
   MONGO_USER: process.env.POKEAPI_MONGO_USER,
   MONGO_USER: process.env.POKEAPI_MONGO_PASS,
   MONGO_DB: process.env.POKEAPI_MONGO_DB || 'pokeapi-cache',

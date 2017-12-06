@@ -11,7 +11,7 @@ fi
 # define all env keys and defaults
 KEYS=("POKEAPI_MONGO_HOST" "POKEAPI_APP_PORT" "POKEAPI_MONGO_PORT" "POKEAPI_MONGO_DB" "POKEAPI_MONGO_USER" "POKEAPI_MONGO_PASS")
 VALUES=($POKEAPI_MONGO_HOST $POKEAPI_APP_PORT $POKEAPI_MONGO_PORT $POKEAPI_MONGO_DB $POKEAPI_MONGO_USER $POKEAPI_MONGO_PASS)
-DEFAULTS=('localhost' '8080' '27107' 'pokeapi-cache' )
+DEFAULTS=('localhost' '8080' '27017' 'pokeapi-cache' )
 
 #FUNCTION promptVar
 # Prompt the user for a key, displaying current or default value
