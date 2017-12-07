@@ -1,0 +1,10 @@
+version: "3"
+services:
+  pokeapi-cache-mongo-dev:
+    container_name: pokeapi-cache-mongo-dev
+    restart: always
+    image: mongo
+    volumes:
+      - ./_data:/data/db
+    ports:
+      - "27017:27017"

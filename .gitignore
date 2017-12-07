@@ -60,6 +60,7 @@ _data
 docker-compose*
 .docker-compose.*
 *.bak
+!mongo.docker-compose.yml
 
 #env files
 *.env

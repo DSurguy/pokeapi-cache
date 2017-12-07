@@ -5,7 +5,9 @@
   "main": "./app/index.js",
   "scripts": {
     "db": "start mongod --config ./mongodb.cfg",
-    "start": "node ./app/index.js"
+    "start": "node ./app/index.js",
+    "mongo": "docker-compose -f mongo.docker-compose.yml up -d --build",
+    "dev": "npm start"
   },
   "repository": {
     "type": "git",
