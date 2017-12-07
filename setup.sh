@@ -34,7 +34,7 @@ promptVar () {
   done
 }
 
-# Check to see if we're running mongo
+# Check if we want to run mongo in docker with the app
 while true; do
   read -p "Run mongo in docker? (y/n): " RUN_MONGO_IN_DOCKER
   case $RUN_MONGO_IN_DOCKER in
