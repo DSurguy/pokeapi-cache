@@ -89,6 +89,8 @@ services:
     container_name: pokeapi-cache-app
     restart: always
     build: .
+    volumes:
+      - ./_dbfiles:/data/files
     ports:
       - \"\${POKEAPI_APP_PORT}:\${POKEAPI_APP_PORT}\"" >> docker-compose.yml
 if [ RUN_MONGO_IN_DOCKER==true ]
@@ -102,7 +104,6 @@ then
     image: mongo
     volumes:
       - ./_dbdata:/data/db
-      - ./_dbfiles:/data/files
     ports:
       - \"\${POKEAPI_MONGO_PORT}:27107\"" >> docker-compose.yml
 fi
