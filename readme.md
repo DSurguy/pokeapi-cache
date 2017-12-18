@@ -5,8 +5,6 @@ This project serves as a simple cache for https://pokeapi.co. Resource requests 
 This means that each resource MUST be cached in order to avoid maxing out that limit and becoming blacklisted.
 
 ## Docker
-*Coming Soon*: Bash and batch scripts to generate a docker-compose.yml file with prompts.
-
 In order to facilitate quick setup and teardown, docker-compose files are provided.
 
 **These assume existance of accompanying .env files!** Samples of these files are provided below.
@@ -37,5 +35,4 @@ to run the db without authentication, but that seems like a bad idea.
 
 ## TODOS
 
-- [ ] Create bash and batch scripts to configure docker-compose files with env vars set
-  - Generate port numbers
+- [ ] Fix windows batch script when docker for windows is also fixed.
