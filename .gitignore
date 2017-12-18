@@ -53,8 +53,9 @@ mongodb.cfg
 #temp archives
 *.7z
 
-#dev database
-_data
+#Cache data
+_dbdata
+_dbfiles
 
 #docker
 docker-compose*

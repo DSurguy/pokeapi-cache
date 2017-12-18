@@ -101,7 +101,8 @@ then
     restart: always
     image: mongo
     volumes:
-      - ./_data:/data/db
+      - ./_dbdata:/data/db
+      - ./_dbfiles:/data/files
     ports:
       - \"\${POKEAPI_MONGO_PORT}:27107\"" >> docker-compose.yml
 fi
